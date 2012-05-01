@@ -114,6 +114,13 @@ syn match atomyParticle
       \ "\.\([a-z_][a-zA-Z0-9\-_]*\|[A-Z][a-zA-Z0-9_]*\)[!?=]\?"
 syn region atomyParticle start=+\."+  skip=+\\\\\|\\"+  end=+"+
       \ contains=atomyInterpolation,atomyNoInterpolation,atomyStringEscape
+syn region atomyParticle matchGroup=atomyParticle
+      \ start="\.("  end=")" contains=TOP
+syn region atomyParticle matchGroup=atomyParticle
+      \ start="\.\[" end="\]" contains=TOP
+syn region atomyParticle matchGroup=atomyParticle
+      \ start="\.\([a-z_][a-zA-Z0-9\-_]*\|[A-Z][a-zA-Z0-9_]*\)("
+      \ end=")[!?=]\?" contains=TOP
 
 " Identifiers, Constants & Variables
 syn match atomyConstant         "[A-Z][a-zA-Z0-9_]*"
