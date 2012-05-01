@@ -6,8 +6,12 @@ elseif exists("b:current_syntax")
 endif
 
 " Delimiters
-syn match atomyDelimiter   "(\|,\|\[\|\]"
+syn match atomyDelimiter   "(\|,"
 syn match atomyBlock       ":\|;\|{\|}"
+
+" Lists
+syn region atomyList matchgroup=atomyArrayDelimiter
+      \ start="\[" end="\]" contains=TOP
 
 " Identifiers & Operators
 syn match atomyIdentifier  "[a-z_][a-zA-Z0-9\-_]*"
