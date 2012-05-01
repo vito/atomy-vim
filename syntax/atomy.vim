@@ -23,7 +23,7 @@ syn keyword atomyBoolean     true false
 syn keyword atomyConditional
       \ if then else when unless and or not otherwise while until
 syn keyword atomyControl
-      \ do for in return break next super loop rescue ensuring match
+      \ do for in return break next super loop rescue ensuring match bind
 syn keyword atomySpecial     self
 
 syn match atomyConditional "\<in?\>"
