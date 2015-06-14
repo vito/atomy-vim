@@ -5,6 +5,8 @@ elseif exists("b:current_syntax")
   finish
 endif
 
+setlocal iskeyword=@,48-57,_,-
+
 " Delimiters
 syn match atomyDelimiter   "(\|,"
 syn match atomyBlock       ":\|;\|{\|}"
