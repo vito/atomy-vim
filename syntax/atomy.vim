@@ -27,7 +27,7 @@ syn keyword atomyBoolean
 syn keyword atomyConditional
       \ if then else condition when unless otherwise while until
 syn keyword atomyControl
-      \ do return break next super loop rescue ensuring
+      \ do return break next super loop rescue ensuring labels
       \ match bind with with-restarts raise error warning signal restart
 syn keyword atomyDefine
       \ macro pattern data open module class singleton
@@ -207,6 +207,8 @@ if version >= 508 || !exists("did_atomy_syntax_inits")
   HiLink atomyProcArgument        Special
 
   HiLink atomyModule              Include
+
+  HiLink atomyControl             Statement
 
   delcommand HiLink
 endif
