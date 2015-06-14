@@ -18,54 +18,38 @@ syn match atomyIdentifier  "[a-z_][a-zA-Z0-9\-_]*"
 syn match atomyOperator    ":\?[<>~!@#\$%\^&\*\-=\+./\?\\|]\+"
 
 " Special Constants
-syn keyword atomyNil         nil
-syn keyword atomyBoolean     true false
+syn keyword atomyPseudoVariable
+      \ nil self __FILE__
+syn keyword atomyBoolean
+      \ true false
 syn keyword atomyConditional
-      \ if then else when unless and or not otherwise while until
+      \ if then else condition when unless otherwise while until
 syn keyword atomyControl
-      \ do for in return break next super loop rescue ensuring match bind
-syn keyword atomySpecial     self
+      \ do return break next super loop rescue ensuring
+      \ match bind with with-restarts raise error warning signal restart
+syn keyword atomyDefine
+      \ macro pattern data open module class singleton
+syn keyword atomyModule
+      \ use require export
 
-syn match atomyConditional "\<in?\>"
+" Proc-arguments
+syn match atomyProcArgument "&.\?[a-z_][a-zA-Z0-9\-_]*[?!]\?"
+syn region atomyProcArgument matchgroup=atomyProcArgument start="&.(" end=")" contains=TOP
 
-syn match atomySpecial
-      \ "\<\(macro\|data\)\>("me=e-1
+" Method & Function definition
+syn match atomyMessageName  contained "[a-z_][a-zA-Z0-9\-_]*[?!]\?"
+syn match atomyOperatorName contained "[<>~!@#\$%\^&\*\-=\+./\?\\|]\+"
 
-syn match atomyUse
-      \ "\<\(use\)\>("me=e-1
+syn region atomyMethodDefinition matchgroup=atomyMethodDefinition
+      \ start="def(" end=")"
+      \ contains=atomyProcArgument,atomyMessageName,atomyOperatorName,atomyConstant,atomyGrouped
 
-syn match atomyRequire
-      \ "\<\(require\)\>("me=e-1
-
-syn match atomyExport
-      \ "\<\(export\)\>("me=e-1
-
-syn match atomyConditional
-      \ "\<\(condition\)\>[[:space:]]*[:{]"me=e-1
-
-syn match atomyControl
-      \ "\<\(let\|with-restarts\|raise\|error\|warning\|signal\|restart\)\>("me=e-1
-syn match atomyControl
-      \ "\<\(open\|onto\|module\|class\|singleton\)\>[[:space:]]*[:{]"me=e-1
-
-" Method Definition
-syn match atomyMethod   contained "[a-z_][a-zA-Z0-9\-_]*[!?=]\?"
-syn match atomyOpMethod contained ":\?[<>~!@#\$%\^&\*\-=\+./\?\\|]\+"
-syn match atomyDefinition
-      \ "[a-z_][a-zA-Z0-9\-_]*[!?=]\?[[:space:]]*:="me=e-2
-      \ contains=atomyMethod,atomyGrouped,atomyOperator
-syn match atomyDefinition
-      \ "[a-z_][a-zA-Z0-9\-_]*[!?=]\?[[:space:]]*&.*:="me=e-2
-      \ contains=atomyMethod,atomyGrouped,atomyOperator
-syn match atomyDefinition
-      \ "[a-z_][a-zA-Z0-9\-_]*[!?=]\?(.*:="me=e-2
-      \ contains=atomyMethod,atomyGrouped,atomyOperator
-syn match atomyDefinition
-      \ "[[:space:]]\+:\?[<>~!@#\$%\^&\*\-=\+./\?\\|]\+[[:space:]]\+.*:="me=e-2
-      \ contains=atomyOpMethod,atomyGrouped,atomyOperator
+syn region atomyFunctionDefinition matchgroup=atomyFunctionDefinition
+      \ start="fn(" end=")"
+      \ contains=atomyProcArgument,atomyMessageName,atomyOperatorName,atomyConstant,atomyGrouped
 
 " Grouped
-syn region atomyGrouped start="(" end=")" contains=TOP,atomyDefinition
+syn region atomyGrouped start="(" end=")" contains=TOP
 
 " Strings
 syn match atomyStringEscape contained
@@ -176,12 +160,10 @@ if version >= 508 || !exists("did_atomy_syntax_inits")
   HiLink atomyBlockComment        atomyComment
   HiLink atomyLineComment         atomyComment
   HiLink atomyComment             Comment
-  HiLink atomySpecial             PreProc
   HiLink atomyConditional         Conditional
   HiLink atomyNumber              Number
   HiLink atomyFloat               Float
-  HiLink atomyConditional         Conditional
-  HiLink atomyNil                 Constant
+  HiLink atomyPseudoVariable      Constant
   HiLink atomyBoolean             Boolean
 
   HiLink atomyStringEscape        SpecialChar
@@ -213,13 +195,16 @@ if version >= 508 || !exists("did_atomy_syntax_inits")
   HiLink atomyUnquote             Special
   HiLink atomySplice              Special
 
-  HiLink atomyMethod              Function
-  HiLink atomyOpMethod            Function
-
   HiLink atomyParticle            Constant
 
-  HiLink atomyUse                 Include
-  HiLink atomyRequire             Include
+  HiLink atomyDefine              Function
+  HiLink atomyMessageName         Function
+  HiLink atomyOperatorName        Function
+  HiLink atomyFunctionDefinition  PreProc
+  HiLink atomyMethodDefinition    PreProc
+  HiLink atomyProcArgument        Special
+
+  HiLink atomyModule              Include
 
   delcommand HiLink
 endif
