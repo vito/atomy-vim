@@ -33,8 +33,8 @@ syn keyword atomyModule
       \ use require export
 
 " Proc-arguments
-syn match atomyProcArgument "&.\?[a-z_][a-zA-Z0-9\-_]*[?!]\?"
-syn region atomyProcArgument matchgroup=atomyProcArgument start="&.(" end=")" contains=TOP
+syn match atomyProcArgument "&\.\?[a-z_][a-zA-Z0-9\-_]*[?!]\?"
+syn region atomyProcArgument matchgroup=atomyProcArgument start="&\.(" end=")" contains=TOP
 
 " Method & Function definition
 syn match atomyMessageName  contained "[a-z_][a-zA-Z0-9\-_]*[?!]\?"
